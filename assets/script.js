@@ -2,11 +2,13 @@ const playersList = document.getElementById("playersList");
 const boxesHtml = document.getElementsByClassName("playerEmptyCard");
 const boxes = Array.from(boxesHtml);
 
+let playersArray = [];
+
 
 
 fetch("./assets/players.json")
     .then((response) => response.json())
-    .then((data) => display(data));
+    .then((data) => {playersArray = data; display(playersArray)});
 
 function display(items) {
     playersList.innerHTML = htmlContent(items);
@@ -14,26 +16,28 @@ function display(items) {
     const itemElements = document.querySelectorAll(".item");
     itemElements.forEach((item, index) => {
         item.addEventListener("dragstart", (e) => {
-            let selected = e.currentTarget;
+            let selected = e.target;
 
             boxes.forEach((box) => {
                 box.addEventListener("dragover", (e) => {
-                    e.preventDefault();
+                    if(box.id.includes(selected.children[3].children[1].textContent) && (box.children[0].nodeName === "svg" || box.children.length == 0)){
+                        e.preventDefault();
+                    }
                 });
 
                 box.addEventListener("drop", (e) => {
-                    if(box.getAttribute("id").includes(selected.children[3].children[1].textContent)){
-                        console.log(box.getAttribute("id"))
-                        box.innerHTML = ""
-                        box.appendChild(selected.children[1].children[0]);
-                        box.innerHTML += selected.children[3].children[0].children[0].textContent;
-                        playersList.removeChild(selected)
-                        box.style.display = "flex";
-                        box.style.flexDirection = "column"
+                    if(box.id.includes(selected.children[3].children[1].textContent) && (box.children[0].nodeName === "svg")){
                         const position = document.createElement("div");
                         position.innerHTML = selected.children[3].children[1].textContent
                         position.style.color = "red"
-                        box.appendChild(position)
+
+                        box.innerHTML = ""
+                        box.appendChild(selected.children[1].children[0]);
+                        box.innerHTML += selected.children[3].children[0].children[0].textContent;
+                        box.appendChild(position);
+                        playersList.removeChild(selected)
+                        box.style.display = "flex";
+                        box.style.flexDirection = "column";
                     }
                 });
             });

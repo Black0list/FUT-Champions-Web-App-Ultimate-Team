@@ -4,7 +4,9 @@
     --blackColor: black;
     --halfBlackColor: #1E1E1E;
     --bgColor: #2B2A2A;
-    --fontSize: clamp(3rem, 7vw + 0.4rem, 12rem);
+    --fontSize: clamp(3rem, 7vw + 0.4rem, 10rem);
+    --fontSizeW: clamp(3.7rem, 7vw + 0.4rem, 12rem);
+    --fontSizeIcon: clamp(0.6rem, 10vw + 1rem, 10rem);
 }
 
 * {
@@ -28,37 +30,45 @@ body {
 }
 
 #stade {
+    background-image: url(./icons/Stadium.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
     width: 80%;
     height: 100%;
-    background-color: #46845C;
+    background-color: transparent;
     display: grid;
     grid-template-rows: repeat(7, 1fr);
     grid-template-columns: repeat(7, 1fr);
     grid-template-areas:
-    ".  .   .   ST  .   .   ."
-    ".  .   LW  SS  RW  .   ."
-    ".  .   .   AM  .   .   ."
-    ".  LM  CM1 CM2 CM3 RM  ."
-    ".  .   .   DM  .   .   ."
-    ".  LB  CB1  .  CB2 RB  ."
-    ".  .   .   GK  .   .   .";
+    ".  .   .   ST  .   .    ."
+    ".  LW  .   SS  .   RW   ."
+    ".  .   .   AM  .   .    ."
+    "LM CM1 .   CM2 .   CM3  RM"
+    ".  .   .   DM  .   .    ."
+    ".  LB  CB1 .   CB2 RB   ."
+    ".  .   .   GK  .   .    .";
     gap: 10px;
     border-radius: 10px;
-    padding: 0.5%;
+    padding: 1%;
 }
 
 .playerEmptyCard {
-    background-color: var(--halfBlackColor);
-    height: var(--fontSize);
-    width: var(--fontSize);
+    /* background-color: var(--halfBlackColor); */
+    /* height: var(--fontSize); */
+    height: 7.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    color: var(--whiteColor);
     font-weight: bold;
     font-size: 0.9rem;
     text-align: center;
+    background-image: url(./icons/card_player.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: center;
+    color: var(--halfBlackColor);
 }
 
 .playerEmptyCard:hover {
@@ -68,14 +78,16 @@ body {
 
 aside{
     width: 30%;
-    height: 100%;
-    padding: 5px;
+    height: 100vh;
+    padding: 20px;
+    background-color: var(--bgColor);
 }
 
 .actions{
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    height: 100%;
 }
 
 
@@ -100,18 +112,28 @@ aside .actions select option {
 #AM { grid-area: AM; }
 #DM { grid-area: DM; }
 
-
-
 #playersList{
     overflow-y: scroll;
-    overflow-x: none;
+    overflow-x: hidden;
+
     max-height: 72vh;
     width: 100%;
 }
 
+@media (max-width: 1280px){
+    .playerEmptyCard{
+        background-size: cover;
+    }
+}
+
 @media (max-width: 768px) {
     #stade {
+        background-size: cover;
         width: 100%;
+    }
+
+    .playerEmptyCard img{
+        width: var(--fontSize);
     }
 
     body{
