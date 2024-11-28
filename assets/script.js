@@ -14,34 +14,27 @@ function display(items) {
     playersList.innerHTML = htmlContent(items);
 
     const itemElements = document.querySelectorAll(".item");
+    let selected;
+    let position;
     itemElements.forEach((item, index) => {
         item.addEventListener("dragstart", (e) => {
-            let selected = e.target;
-
-            boxes.forEach((box) => {
-                box.addEventListener("dragover", (e) => {
-                    if(box.id.includes(selected.children[3].children[1].textContent) && (box.children[0].nodeName === "svg" || box.children.length == 0)){
-                        e.preventDefault();
-                    }
-                });
-
-                box.addEventListener("drop", (e) => {
-                    if(box.id.includes(selected.children[3].children[1].textContent) && (box.children[0].nodeName === "svg")){
-                        const position = document.createElement("div");
-                        position.innerHTML = selected.children[3].children[1].textContent
-                        position.style.color = "red"
-
-                        box.innerHTML = ""
-                        box.appendChild(selected.children[1].children[0]);
-                        box.innerHTML += selected.children[3].children[0].children[0].textContent;
-                        box.appendChild(position);
-                        playersList.removeChild(selected)
-                        box.style.display = "flex";
-                        box.style.flexDirection = "column";
-                    }
-                });
-            });
+            selected = e.currentTarget;
+            position = selected.children[2].children[0].textContent;
         })
+
+        boxes.forEach((box) => {
+            box.addEventListener("dragover", (e) => {
+                if(box.id.includes(position)){
+                    e.preventDefault();
+                }
+            });
+
+            box.addEventListener("drop", (e) => {
+                    box.innerHTML = "";
+                    box.appendChild(selected)
+            });
+
+        });
     });
 }
 
@@ -51,16 +44,39 @@ function htmlContent(items) {
     for (let element in items) {
         items[element].forEach(item => {
             htmlItems += 
-            `<div class="item" draggable="true" style="background-color:#1E1E1E; display:flex; justify-content: center; margin-top: 5px; border-radius: 10px; width: 100%">
-                    <div class="col-1"></div>
-                <div class="col-2" style=margin-top:1.2vh;>
-                    <img src="${item.photo}" ; width="60vh"/> 
-                </div>
-                    <div class="col-1"></div>
-                <div class="col-10 ">
-                    <div class="row" style="margin-top:1vh"><h3>${item.name}</h3></div>
-                    <div class="row"><h5>${item.position}</h5></div>
-                </div>
+            `<div class="item" draggable="true" style="display:flex;  justify-content: center; border-radius: 10px; width: 100%">
+                    <div class="player_photo">
+                        <div class="rating" style="left: 25%; top: 10%;">${item.rating}</div>
+                        <img src="${item.photo}" alt="">
+                    </div>
+                    <div class="player_name">${item.name}</div>
+                    <div class="player_NationClub"><div>${item.position}</div><img src="${item.flag}"/><img src="${item.logo}"/><div></div></div>
+                    <div class="player_stats" style="display : none">
+                        <div class="column-stats">
+                            <p>${item.pace ? "PAC" : "DIV"}</p>
+                            <p>${item.pace || item.diving}</p>
+                        </div>
+                        <div class="column-stats">
+                            <p>${item.shooting ? "SHO" : "HAN"}</p>
+                            <p>${item.shooting || item.handling}</p>
+                        </div>
+                        <div class="column-stats">
+                            <p>${item.passing ? "PAS" : "KIC"}</p>
+                            <p>${item.passing || item.kicking}</p>
+                        </div>
+                        <div class="column-stats">
+                            <p>${item.dribbling ? "DRI" : "REF"}</p>
+                            <p>${item.dribbling || item.reflexes}</p>
+                        </div>
+                        <div class="column-stats">
+                            <p>${item.defending ? "DEF" : "SPD"}</p>
+                            <p>${item.defending || item.speed}</p>
+                        </div>
+                        <div class="column-stats">
+                            <p>${item.physical ? "PHY" : "POS"}</p>
+                            <p>${item.physical || item.positioning}</p>
+                        </div>
+                    </div>
             </div>`;
         });
     }

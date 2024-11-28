@@ -5,8 +5,8 @@
     --halfBlackColor: #1E1E1E;
     --bgColor: #2B2A2A;
     --fontSize: clamp(3rem, 7vw + 0.4rem, 10rem);
-    --fontSizeW: clamp(3.7rem, 7vw + 0.4rem, 12rem);
-    --fontSizeIcon: clamp(0.6rem, 10vw + 1rem, 10rem);
+    --fontSizeW: clamp(0.4rem, 7vw + 0.4rem, 0rem);
+    --fontSizeIcon: clamp(0.7rem, 10vw + 1rem, 0.4rem);
 }
 
 * {
@@ -54,8 +54,7 @@ body {
 }
 
 .playerEmptyCard {
-    /* background-color: var(--halfBlackColor); */
-    /* height: var(--fontSize); */
+    position: relative;
     height: 7.5rem;
     display: flex;
     align-items: center;
@@ -68,12 +67,20 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     background-position-x: center;
-    color: var(--halfBlackColor);
+    color: black !important;
 }
 
 .playerEmptyCard:hover {
     filter: drop-shadow(0 -5px 7px rgba(6, 175, 82, 0.96));
     cursor: pointer;
+}
+
+.playerEmptyCard .rating{
+    position: absolute;
+    color: black;
+}
+.playerEmptyCard .player_name{
+    color: black;
 }
 
 aside{
@@ -83,12 +90,22 @@ aside{
     background-color: var(--bgColor);
 }
 
+svg{
+    align-self: center;
+}
+
 .actions{
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     height: 100%;
 }
+
+/* .modal{
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+} */
 
 
 aside .actions select option {
@@ -120,6 +137,50 @@ aside .actions select option {
     width: 100%;
 }
 
+.item{
+    width: 100px;
+}
+
+.player_NationClub{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player_NationClub img{
+    width: 10%;
+    height: fit-content;
+}
+
+.item > .player_photo img{
+    width: 50%;
+}
+
+.item p{
+    color: var(--halfBlackColor);
+}
+
+.item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fontSizeIcon);
+    color: black;
+}
+
+.player_stats{
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2%;
+}
+
+.player_photo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 1280px){
     .playerEmptyCard{
         background-size: cover;
@@ -132,7 +193,7 @@ aside .actions select option {
         width: 100%;
     }
 
-    .playerEmptyCard img{
+    .playerEmptyCard > img{
         width: var(--fontSize);
     }
 
