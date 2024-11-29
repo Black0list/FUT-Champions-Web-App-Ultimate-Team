@@ -55,7 +55,7 @@ body {
 
 .playerEmptyCard {
     position: relative;
-    height: 7.5rem;
+    height: 7.5em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,7 +65,7 @@ body {
     text-align: center;
     background-image: url(./icons/card_player.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: auto;
     background-position-x: center;
     color: black !important;
 }
@@ -79,7 +79,7 @@ body {
     position: absolute;
     color: black;
 }
-.playerEmptyCard .player_name{
+.playerEmptyCard .player_name, .playerEmptyCard .player_NationClub > div{
     color: black;
 }
 
@@ -141,14 +141,19 @@ aside .actions select option {
     width: 100px;
 }
 
+.red{
+    color: red;
+}
+
 .player_NationClub{
     display: flex;
     justify-content: center;
     align-items: center;
+    column-gap: 5px;
 }
 
 .player_NationClub img{
-    width: 10%;
+    width: 12%;
     height: fit-content;
 }
 
@@ -181,15 +186,15 @@ aside .actions select option {
     justify-content: center;
 }
 
-@media (max-width: 1280px){
+/* @media (max-width: 1280px){
     .playerEmptyCard{
         background-size: cover;
     }
-}
+} */
 
 @media (max-width: 768px) {
     #stade {
-        background-size: cover;
+        /* background-size: cover; */
         width: 100%;
     }
 
