@@ -7,6 +7,18 @@
     --fontSize: clamp(3rem, 7vw + 0.4rem, 10rem);
     --fontSizeW: clamp(0.4rem, 7vw + 0.4rem, 0rem);
     --fontSizeIcon: clamp(0.7rem, 10vw + 1rem, 0.4rem);
+
+    --main-color: #12f7d6;
+    --dark-color: #292f36;
+    --electric-blue: #0078FF;
+    --neon-purple: #A020F0;
+    --slate-gray: #2F4F4F;
+    --white-color: #FFFFFF;
+    --dark-c: #1A1A1A;
+    --soft-gray: #F5F5F5;
+    --white-smoke: #F8F8F8;
+    --deep-orange: #FF4500;
+    --bright-yellow: #FFD700;
 }
 
 * {
@@ -186,11 +198,6 @@ aside .actions select option {
     justify-content: center;
 }
 
-/* @media (max-width: 1280px){
-    .playerEmptyCard{
-        background-size: cover;
-    }
-} */
 
 @media (max-width: 768px) {
     #stade {
@@ -209,3 +216,189 @@ aside .actions select option {
         width: 100%;
     }
 }
+
+
+
+/* ----------------- players list ------------------------- */
+
+.players {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+    align-items: start;
+    padding: 30px;
+    height: 100vh;
+}
+
+.players-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 50px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 750px) {
+    .players-heading {
+        justify-content: center;
+    }
+}
+
+.players h1 {
+    padding: 3px;
+}
+
+.players .players-main {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    padding: 30px;
+    width: 100%;
+}
+
+.players .players-main .players-all {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 155px));
+    background-color: var(--dark-color);
+    width: 100%;
+    border-radius: 10px;
+    padding: 20px 0;
+    justify-content: center;
+    gap: 100px;
+}
+
+.players .players-filter {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+    background-color: var(--dark-color);
+    padding: 20px;
+    min-width: fit-content;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* ==============   Card   ============== */
+
+.card-full {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 312px;
+    width: 300px;
+    position: relative;
+}
+
+.card-full .image {
+    position: relative;
+    width: 200px;
+    display: flex;
+    margin-bottom: 5px;
+    gap: -10px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    position: absolute;
+    border: none;
+    width: fit-content;
+    bottom: 13px;
+}
+
+.card .card-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.card .card-top {
+    display: flex;
+    color: #d3cca3;
+    justify-content: flex-start;
+    align-items: start;
+    width: 170px;
+}
+
+.card .card-top .info {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.card .card-top .info .position {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.card .card-top .image a {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--deep-orange);
+    font-size: 25px;
+    margin-left: -10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card .card-top .image a:hover {
+    color: #A020F0;
+}
+
+.card .card-top .image img {
+    width: 140px;
+}
+
+.card .card-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.card .card-bottom .name {
+    color: #d3cca3;
+}
+
+.card .card-bottom .stats ul {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.card .card-bottom .stats ul li {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.card .card-bottom .stats ul li span:first-child {
+    font-size: 8px;
+}
+
+
+.card .card-bottom .country-club {
+    display: flex;
+    margin-top: 9px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card .country img,
+.card .club img {
+    width: 20px;
+}
+

@@ -1,9 +1,11 @@
 const playersList = document.getElementById("playersList");
+const playersList2 = document.getElementById("players-all");
 const boxesHtml = document.getElementsByClassName("playerEmptyCard");
 const boxes = Array.from(boxesHtml);
 const selectPlayer = document.getElementsByClassName("form-select")[1];
 
 let playersArray = [];
+let StadeMap = new Map();
 
 let playerInput = {
     name : document.getElementById("name").value,
@@ -25,7 +27,7 @@ let playerInput = {
 // Fetch Depuis Json
 fetch("./assets/players.json")
     .then((response) => response.json())
-    .then((data) => {playersArray = data; display(playersArray)});
+    .then((data) => {playersArray = data.players; display(playersArray);DisplayPlayers(playersArray)});
 
 function display(items) {
     playersList.innerHTML = htmlContent(items);
@@ -33,12 +35,11 @@ function display(items) {
     const itemElements = document.querySelectorAll(".item");
         let selected;
         let position;
-        let parent;   
+        let parent;
+        let PlayerSelectedIndex
     itemElements.forEach((item, index) => {
         item.addEventListener("dragstart", (e) => {
             selected = e.currentTarget;
-            selected.children[4].children[0].style.display = "none"
-            selected.children[4].children[1].style.display = "none"
             position = selected.children[2].children[0].textContent;
             parent = selected.parentElement;
         })
@@ -52,9 +53,9 @@ function display(items) {
 
             box.addEventListener("drop", (e) => {
                 (box.children[0]?.nodeName === "svg") || box.children.length === 0 ? console.log("skip svg") : parent.appendChild(box.children[0]);
-                    box.innerHTML = ""
-                    box.appendChild(selected);
-                    
+                box.innerHTML = ""
+                box.appendChild(selected)
+                StadeMap.set("id", PlayerSelectedIndex);
             });
         });
     });
@@ -66,8 +67,7 @@ function display(items) {
 function htmlContent(items) {
     let htmlItems = "";
 
-    for (let element in items) {
-        items[element].forEach((item, index) => {
+        items.forEach((item, index) => {
             htmlItems += 
             `<div class="item" draggable="true" style="margin-top: 5px; display:flex; justify-content: center; border-radius: 10px; width: 100%">
                     <div class="player_photo">
@@ -102,13 +102,8 @@ function htmlContent(items) {
                             <p>${item.physical || item.positioning}</p>
                         </div>
                     </div>
-                    <div>
-                    <button type="submit" class="btn btn-danger"  onclick="deletePlayer(${index})">Delete</button>
-                    <button type="submit" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#playerModal" onclick="getPlayer(${index})">Edit</button>
-                    </div>
             </div>`;
         });
-    }
 
     return htmlItems;
 }
@@ -175,96 +170,199 @@ selectPlayer.addEventListener("change", (e) => {
     }
 })
 
-function addPlayer(){
+function PlayerList(){
+    document.getElementById("stade").style.display = "none";
+    document.getElementById("players_aside").style.display = "none";
+    document.getElementsByClassName("players")[0].style.display = "flex";
+    DisplayPlayers(playersArray)
+}
+
+
+
+// ======================= playerslIST ==============================
+function DisplayPlayers(items) {
+    playersList2.innerHTML = CreatePlayers(items);
+  }
+  
+  function CreatePlayers(items) {
+    let htmlItems = "";
+  
+    items.forEach((player, index) => {
+      htmlItems += `<div style="display:flex;flex-direction: column; align-items:center">
+                  <div class="card-full">
+                      <img src="assets/icons/player-card.webp" class="first-image" alt="">
+                                  <div class="card" >
+                                      <div class="card-inner">
+                                          <div class="card-top">
+                                              <div class="info">
+                                                  <div class="value">${
+                                                    player.rating
+                                                  }</div>
+                                                  <div class="position">${
+                                                    player.position
+                                                  }</div>
+                                              </div>
+                                              <div class="image">
+                                                  <img src="${
+                                                    player.photo
+                                                  }" alt="">
+                                              </div>
+                                          </div>
+                                          <div class="card-bottom">
+                                              <div class="name">${
+                                                player.name
+                                              }</div>
+                                              <div class="stats">
+                                                  <div>${
+                                                    player.position !== "GK"
+                                                      ? `<ul>
+                                                          <li><span>PAC</span><span>${player.pace}</span></li>
+                                                          <li><span>SHO</span><span>${player.shooting}</span></li>
+                                                          <li><span>PAS</span><span>${player.passing}</span></li>
+                                                          <li><span>DRI</span><span>${player.dribbling}</span></li>
+                                                          <li><span>DEF</span><span>${player.defending}</span></li>
+                                                          <li><span>PHY</span><span>${player.physical}</span></li>
+                                                      </ul> `
+                                                      : `<ul>
+                                                          <li><span>DIV</span><span>${player.diving}</span></li>
+                                                          <li><span>HAN</span><span>${player.handling}</span></li>
+                                                          <li><span>KIC</span><span>${player.kicking}</span></li>
+                                                          <li><span>REF</span><span>${player.reflexes}</span></li>
+                                                          <li><span>SPD</span><span>${player.speed}</span></li>
+                                                          <li><span>POS</span><span>${player.positioning}</span></li>
+                                                      </ul>`
+                                                  }
+                                                  </div>
+                                              </div>
+                                              <div class="country-club">
+                                                  <div class="country">
+                                                      <img src="${
+                                                        player.flag
+                                                      }" alt="">
+                                                  </div>
+                                                  <div class="club">
+                                                      <img src="${
+                                                        player.logo
+                                                      }" alt="">
+                                                  </div>
+                                              </div>
+                                              
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="Buttons">
+                                          <button class="btn btn-danger" data-index="${index}"  onclick="deletePlayer(${index})">Delete</button>
+                                          <button class="btn btn-warning" data-index="${index}" data-bs-toggle="modal" data-bs-target="#playerModal" onclick="getPlayer(${index})">Edit</button>
+                              </div>
+                              </div>
+                  
+                                  `;
+    });
+  
+    return htmlItems;
+  }
+  
+  function addPlayer() {
     // if (!validateFieldsAdd()) {
-    //     return; 
+    //     return;
     // }
-
-     playerInput = {
-        name : document.getElementById("name").value,
-        photo : document.getElementById("photo").value,
-        nationality : document.getElementById("country").value,
-        flag : document.getElementById("flag").value,
-        club : document.getElementById("club").value,
-        logo : document.getElementById("logo").value,
-        rating : document.getElementById("rating").value,
-        position : document.getElementById("positionSelect").value,
-        pace : document.getElementById("pace").value,
-        shooting : document.getElementById("shooting").value,
-        passing : document.getElementById("passing").value,
-        dribbling : document.getElementById("dribbling").value,
-        defending : document.getElementById("defending").value,
-        physical : document.getElementById("physical").value
-    }
-
+  
+    playerInput = {
+      name: document.getElementById("name").value,
+      photo: document.getElementById("photo").value,
+      nationality: document.getElementById("country").value,
+      flag: document.getElementById("flag").value,
+      club: document.getElementById("club").value,
+      logo: document.getElementById("logo").value,
+      rating: document.getElementById("rating").value,
+      position: document.getElementById("positionSelect").value,
+      pace: document.getElementById("pace").value,
+      shooting: document.getElementById("shooting").value,
+      passing: document.getElementById("passing").value,
+      dribbling: document.getElementById("dribbling").value,
+      defending: document.getElementById("defending").value,
+      physical: document.getElementById("physical").value,
+    };
+  
     let newPlayer = {
-        "name" : playerInput.name,
-        "photo" : playerInput.photo,
-        "position" : playerInput.position,
-        "nationality" : playerInput.nationality,
-        "flag" : playerInput.flag,
-        "club" : playerInput.club,
-        "logo" : playerInput.logo,
-        "rating" : playerInput.rating,
-        "pace" : playerInput.pace,
-        "shooting" : playerInput.shooting,
-        "passing" : playerInput.passing,
-        "dribbling" : playerInput.dribbling,
-        "defending" : playerInput.defending,
-        "physical" : playerInput.physical,
-    }
-
-    console.log(newPlayer)
-
-    playersArray.players.unshift(newPlayer);
-    display(playersArray)
-}
-
-function deletePlayer(index){
-    playersArray.players.splice(index, 1)
-    display(playersArray)
-
-}
-
-function getPlayer(index){
-    document.getElementById("name").value = playersArray.players[index].name
-    document.getElementById("photo").value = playersArray.players[index].photo
-    document.getElementById("country").value = playersArray.players[index].nationality
-    document.getElementById("flag").value = playersArray.players[index].flag
-    document.getElementById("club").value = playersArray.players[index].club
-    document.getElementById("logo").value = playersArray.players[index].logo
-    document.getElementById("rating").value = playersArray.players[index].rating
-    document.getElementById("positionSelect").value = playersArray.players[index].position
-    document.getElementById("pace").value = playersArray.players[index].pace
-    document.getElementById("shooting").value = playersArray.players[index].shooting
-    document.getElementById("passing").value = playersArray.players[index].passing
-    document.getElementById("dribbling").value = playersArray.players[index].dribbling
-    document.getElementById("defending").value = playersArray.players[index].defending
-    document.getElementById("physical").value = playersArray.players[index].physical
-
+      name: playerInput.name,
+      photo: playerInput.photo,
+      position: playerInput.position,
+      nationality: playerInput.nationality,
+      flag: playerInput.flag,
+      club: playerInput.club,
+      logo: playerInput.logo,
+      rating: playerInput.rating,
+      pace: playerInput.pace,
+      shooting: playerInput.shooting,
+      passing: playerInput.passing,
+      dribbling: playerInput.dribbling,
+      defending: playerInput.defending,
+      physical: playerInput.physical,
+    };
+  
+    console.log(newPlayer);
+  
+    playersArray.unshift(newPlayer);
+    DisplayPlayers(playersArray);
+  }
+  
+  function deletePlayer(index) {
+    playersArray.splice(index, 1);
+    DisplayPlayers(playersArray);
+  }
+  
+  function getPlayer(index) {
+    document.getElementById("name").value = playersArray[index].name;
+    document.getElementById("photo").value = playersArray[index].photo;
+    document.getElementById("country").value = playersArray[index].nationality;
+    document.getElementById("flag").value = playersArray[index].flag;
+    document.getElementById("club").value = playersArray[index].club;
+    document.getElementById("logo").value = playersArray[index].logo;
+    document.getElementById("rating").value = playersArray[index].rating;
+    document.getElementById("positionSelect").value =
+      playersArray[index].position;
+    document.getElementById("pace").value = playersArray[index].pace;
+    document.getElementById("shooting").value = playersArray[index].shooting;
+    document.getElementById("passing").value = playersArray[index].passing;
+    document.getElementById("dribbling").value = playersArray[index].dribbling;
+    document.getElementById("defending").value = playersArray[index].defending;
+    document.getElementById("physical").value = playersArray[index].physical;
+  
     const ModalButton = document.getElementById("ModalButton");
     ModalButton.textContent = "Edit";
     ModalButton.setAttribute("onclick", `editPlayer(${index})`);
-}
-
-function editPlayer(index){
-    console.log(playersArray.players[index])
-    playersArray.players[index] = {
-        name : document.getElementById("name").value,
-        photo : document.getElementById("photo").value,
-        nationality : document.getElementById("country").value,
-        flag : document.getElementById("flag").value,
-        club : document.getElementById("club").value,
-        logo : document.getElementById("logo").value,
-        rating : document.getElementById("rating").value,
-        position : document.getElementById("positionSelect").value,
-        pace : document.getElementById("pace").value,
-        shooting : document.getElementById("shooting").value,
-        passing : document.getElementById("passing").value,
-        dribbling : document.getElementById("dribbling").value,
-        defending : document.getElementById("defending").value,
-        physical : document.getElementById("physical").value
-    }
+  }
+  
+  function editPlayer(index) {
+    console.log(playersArray[index]);
+    playersArray[index] = {
+      name: document.getElementById("name").value,
+      photo: document.getElementById("photo").value,
+      nationality: document.getElementById("country").value,
+      flag: document.getElementById("flag").value,
+      club: document.getElementById("club").value,
+      logo: document.getElementById("logo").value,
+      rating: document.getElementById("rating").value,
+      position: document.getElementById("positionSelect").value,
+      pace: document.getElementById("pace").value,
+      shooting: document.getElementById("shooting").value,
+      passing: document.getElementById("passing").value,
+      dribbling: document.getElementById("dribbling").value,
+      defending: document.getElementById("defending").value,
+      physical: document.getElementById("physical").value,
+    };
+  
+    DisplayPlayers(playersArray);
+  }
+  
+  
+  function GoBack(){
+    document.getElementById("stade").style.display = "grid";
+    document.getElementById("players_aside").style.display = "block";
+    document.getElementsByClassName("players")[0].style.display = "none";
     display(playersArray)
-}
-
+  }
+  
+  
