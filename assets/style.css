@@ -8,7 +8,7 @@
     --fontSizeW: clamp(0.4rem, 7vw + 0.4rem, 0rem);
     --fontSizeIcon: clamp(0.7rem, 10vw + 1rem, 0.4rem);
 
-    --main-color: #12f7d6;
+    /* --main-color: #12f7d6;
     --dark-color: #292f36;
     --electric-blue: #0078FF;
     --neon-purple: #A020F0;
@@ -18,7 +18,7 @@
     --soft-gray: #F5F5F5;
     --white-smoke: #F8F8F8;
     --deep-orange: #FF4500;
-    --bright-yellow: #FFD700;
+    --bright-yellow: #FFD700; */
 }
 
 * {
@@ -261,7 +261,6 @@ aside .actions select option {
 .players .players-main .players-all {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 155px));
-    background-color: var(--dark-color);
     width: 100%;
     border-radius: 10px;
     padding: 20px 0;
@@ -269,12 +268,11 @@ aside .actions select option {
     gap: 100px;
 }
 
-.players .players-filter {
+.players .players-actions {
     display: flex;
     align-items: start;
     justify-content: start;
     gap: 20px;
-    background-color: var(--dark-color);
     padding: 20px;
     min-width: fit-content;
     border-radius: 10px;
@@ -349,7 +347,6 @@ aside .actions select option {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--deep-orange);
     font-size: 25px;
     margin-left: -10px;
     cursor: pointer;
