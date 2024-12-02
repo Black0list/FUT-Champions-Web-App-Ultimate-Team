@@ -255,6 +255,9 @@ function DisplayPlayers(items) {
   }
   
   function addPlayer() {
+    if(!validateFieldsAdd()){
+        return;
+    }
 
     console.log(document.getElementsByTagName("form")[0])
     
@@ -322,6 +325,10 @@ function DisplayPlayers(items) {
   
     ModalButton.textContent = "Edit";
     ModalButton.setAttribute("onclick", `editPlayer(${index})`);
+  }
+
+  function changeTextContent(){
+    ModalButton.textContent = "Add";
   }
   
   function editPlayer(index) {
