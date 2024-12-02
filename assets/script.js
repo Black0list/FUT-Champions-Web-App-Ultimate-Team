@@ -91,7 +91,7 @@ function htmlContent(items) {
 
   items.forEach((item, index) => {
     if (!StadeArray.includes(index)) {
-      htmlItems += `<div class="item" draggable="true" style="margin-top: 5px; display:flex; justify-content: center; border-radius: 10px; width: 100%">
+      htmlItems += `<div class="item" draggable="true" style="margin-top: 5px; display:flex; justify-content: center; border-radius: 10px; width: 100%;">
                       <div class="player_photo">
                           <div class="rating" style="left: 25%; top: 10%;">${item.rating}</div>
                           <img src="${item.photo}" alt="">
@@ -258,6 +258,13 @@ selectPlayer.addEventListener("change", (e) => {
     document.getElementById("physical").previousElementSibling.textContent = "Physical";
   }
 });
+
+function GoBack() {
+  document.getElementById("stade").style.display = "grid";
+  document.getElementById("players_aside").style.display = "block";
+  document.getElementsByClassName("players")[0].style.display = "none";
+  display(playersArray);
+}
 
 function PlayerList() {
   document.getElementById("stade").style.display = "none";
@@ -484,13 +491,6 @@ function editPlayer(index) {
   playersArray[index] = player;
 
   DisplayPlayers(playersArray);
-}
-
-function GoBack() {
-  document.getElementById("stade").style.display = "grid";
-  document.getElementById("players_aside").style.display = "block";
-  document.getElementsByClassName("players")[0].style.display = "none";
-  display(playersArray);
 }
 
 function ResetInputs() {
