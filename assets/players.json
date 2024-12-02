@@ -153,12 +153,12 @@
         "club": "Atletico Madrid",
         "logo": "https://cdn.sofifa.net/meta/team/7980/120.png",
         "rating": 91,
-        "diving": 89,
-        "handling": 90,
-        "kicking": 78,
-        "reflexes": 92,
-        "speed": 50,
-        "positioning": 88
+        "pace": 89,
+        "shooting": 90,
+        "passing": 78,
+        "dribbling": 92,
+        "defending": 50,
+        "physical": 88
       },
       {
         "name": "Luka Modrić",
@@ -281,12 +281,12 @@
         "club": "Al-Hilal",
         "logo": "https://cdn.sofifa.net/meta/team/7011/120.png",
         "rating": 84,
-        "diving": 81,
-        "handling": 82,
-        "kicking": 77,
-        "reflexes": 86,
-        "speed": 38,
-        "positioning": 83
+        "pace": 81,
+        "shooting": 82,
+        "passing": 77,
+        "dribbling": 86,
+        "defending": 38,
+        "physical": 83
       },
       {
         "name": "Bruno Fernandes",
@@ -408,12 +408,12 @@
         "club": "Paris Saint-Germain",
         "logo": "https://cdn.sofifa.net/meta/team/591/120.png",
         "rating": 89,
-        "diving": 88,
-        "handling": 84,
-        "kicking": 75,
-        "reflexes": 90,
-        "speed": 50,
-        "positioning": 85
+        "pace": 88,
+        "shooting": 84,
+        "passing": 75,
+        "dribbling": 90,
+        "defending": 50,
+        "physical": 85
       }
     ]
   }

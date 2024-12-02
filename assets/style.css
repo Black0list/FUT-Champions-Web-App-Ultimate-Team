@@ -282,6 +282,11 @@ aside .actions select option {
     gap: 20px;
 }
 
+
+#positionSelect option{
+    color: black;
+}
+
 /* ==============   Card   ============== */
 
 .card-full {

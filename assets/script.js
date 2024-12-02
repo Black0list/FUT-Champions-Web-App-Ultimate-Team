@@ -3,6 +3,7 @@ const playersList2 = document.getElementById("players-all");
 const boxesHtml = document.getElementsByClassName("playerEmptyCard");
 const boxes = Array.from(boxesHtml);
 const selectPlayer = document.getElementsByClassName("form-select")[1];
+const ModalButton = document.getElementById("ModalButton");
 
 let playersArray = [];
 let StadeMap = new Map();
@@ -213,25 +214,15 @@ function DisplayPlayers(items) {
                                                 player.name
                                               }</div>
                                               <div class="stats">
-                                                  <div>${
-                                                    player.position !== "GK"
-                                                      ? `<ul>
-                                                          <li><span>PAC</span><span>${player.pace}</span></li>
-                                                          <li><span>SHO</span><span>${player.shooting}</span></li>
-                                                          <li><span>PAS</span><span>${player.passing}</span></li>
-                                                          <li><span>DRI</span><span>${player.dribbling}</span></li>
-                                                          <li><span>DEF</span><span>${player.defending}</span></li>
-                                                          <li><span>PHY</span><span>${player.physical}</span></li>
-                                                      </ul> `
-                                                      : `<ul>
-                                                          <li><span>DIV</span><span>${player.diving}</span></li>
-                                                          <li><span>HAN</span><span>${player.handling}</span></li>
-                                                          <li><span>KIC</span><span>${player.kicking}</span></li>
-                                                          <li><span>REF</span><span>${player.reflexes}</span></li>
-                                                          <li><span>SPD</span><span>${player.speed}</span></li>
-                                                          <li><span>POS</span><span>${player.positioning}</span></li>
-                                                      </ul>`
-                                                  }
+                                                  <div>
+                                                        <ul>
+                                                          <li><span>${player.position == "GK" ? "DIV" : "PAC"}</span><span>${player.pace}</span></li>
+                                                          <li><span>${player.position == "GK" ? "HAN" : "SHO"}</span><span>${player.shooting}</span></li>
+                                                          <li><span>${player.position == "GK" ? "KIC" : "PAS"}</span><span>${player.passing}</span></li>
+                                                          <li><span>${player.position == "GK" ? "DEF" : "DRI"}</span><span>${player.dribbling}</span></li>
+                                                          <li><span>${player.position == "GK" ? "SPD" : "DEF"}</span><span>${player.defending}</span></li>
+                                                          <li><span>${player.position == "GK" ? "POS" : "PHY"}</span><span>${player.physical}</span></li>
+                                                      </ul>
                                                   </div>
                                               </div>
                                               <div class="country-club">
@@ -264,9 +255,9 @@ function DisplayPlayers(items) {
   }
   
   function addPlayer() {
-    // if (!validateFieldsAdd()) {
-    //     return;
-    // }
+
+    console.log(document.getElementsByTagName("form")[0])
+    
   
     playerInput = {
       name: document.getElementById("name").value,
@@ -321,8 +312,7 @@ function DisplayPlayers(items) {
     document.getElementById("club").value = playersArray[index].club;
     document.getElementById("logo").value = playersArray[index].logo;
     document.getElementById("rating").value = playersArray[index].rating;
-    document.getElementById("positionSelect").value =
-      playersArray[index].position;
+    document.getElementById("positionSelect").value = playersArray[index].position;
     document.getElementById("pace").value = playersArray[index].pace;
     document.getElementById("shooting").value = playersArray[index].shooting;
     document.getElementById("passing").value = playersArray[index].passing;
@@ -330,29 +320,30 @@ function DisplayPlayers(items) {
     document.getElementById("defending").value = playersArray[index].defending;
     document.getElementById("physical").value = playersArray[index].physical;
   
-    const ModalButton = document.getElementById("ModalButton");
     ModalButton.textContent = "Edit";
     ModalButton.setAttribute("onclick", `editPlayer(${index})`);
   }
   
   function editPlayer(index) {
-    console.log(playersArray[index]);
-    playersArray[index] = {
-      name: document.getElementById("name").value,
-      photo: document.getElementById("photo").value,
-      nationality: document.getElementById("country").value,
-      flag: document.getElementById("flag").value,
-      club: document.getElementById("club").value,
-      logo: document.getElementById("logo").value,
-      rating: document.getElementById("rating").value,
-      position: document.getElementById("positionSelect").value,
-      pace: document.getElementById("pace").value,
-      shooting: document.getElementById("shooting").value,
-      passing: document.getElementById("passing").value,
-      dribbling: document.getElementById("dribbling").value,
-      defending: document.getElementById("defending").value,
-      physical: document.getElementById("physical").value,
+    
+    let player = {
+        name: document.getElementById("name").value,
+        photo: document.getElementById("photo").value,
+        nationality: document.getElementById("country").value,
+        flag: document.getElementById("flag").value,
+        club: document.getElementById("club").value,
+        logo: document.getElementById("logo").value,
+        rating: document.getElementById("rating").value,
+        position: document.getElementById("positionSelect").value,
+        pace: document.getElementById("pace").value,
+        shooting: document.getElementById("shooting").value,
+        passing: document.getElementById("passing").value,
+        dribbling: document.getElementById("dribbling").value,
+        defending: document.getElementById("defending").value,
+        physical: document.getElementById("physical").value,
     };
+
+    playersArray[index] = player
   
     DisplayPlayers(playersArray);
   }
