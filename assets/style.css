@@ -41,6 +41,11 @@ body {
     padding: 10px;
 }
 
+ul{
+    padding: 0;
+    margin: 0;
+}
+
 #stade {
     background-image: url(./icons/Stadium.png);
     background-repeat: no-repeat;
