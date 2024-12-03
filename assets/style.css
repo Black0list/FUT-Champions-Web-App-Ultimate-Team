@@ -224,7 +224,7 @@ aside .actions select option {
 
 
 
-/* ----------------- players list ------------------------- */
+/* players list  */
 
 .players {
     display: flex;
@@ -290,7 +290,7 @@ aside .actions select option {
     color: black;
 }
 
-/* ==============   Card   ============== */
+/*PLaYer Card */
 
 .card-full {
     display: flex;
@@ -347,21 +347,6 @@ aside .actions select option {
     font-weight: 500;
 }
 
-.card .card-top .image a {
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
-    margin-left: -10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.card .card-top .image a:hover {
-    color: #A020F0;
-}
-
 .card .card-top .image img {
     width: 140px;
 }
@@ -394,7 +379,6 @@ aside .actions select option {
 .card .card-bottom .stats ul li span:first-child {
     font-size: 8px;
 }
-
 
 .card .card-bottom .country-club {
     display: flex;

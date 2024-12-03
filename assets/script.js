@@ -236,6 +236,8 @@ function validateFieldsAdd() {
 }
 
 selectPlayer.addEventListener("change", (e) => {
+  console.log(e.target.value);
+  
   if (selectPlayer.value === "GK") {
     document.getElementById("pace").previousElementSibling.textContent =
       "Diving";
@@ -442,6 +444,30 @@ function deletePlayer(index) {
 }
 
 function getPlayer(index) {
+  console.log(playersArray[index].position);
+
+  if (playersArray[index].position === "GK") {
+    document.getElementById("pace").previousElementSibling.textContent =
+      "Diving";
+    document.getElementById("shooting").previousElementSibling.textContent =
+      "Handling";
+    document.getElementById("passing").previousElementSibling.textContent =
+      "Kicking";
+    document.getElementById("dribbling").previousElementSibling.textContent =
+      "Reflexes";
+    document.getElementById("defending").previousElementSibling.textContent =
+      "Speed";
+    document.getElementById("physical").previousElementSibling.textContent =
+      "Positioning";
+  } else {
+    document.getElementById("pace").previousElementSibling.textContent = "Pace";
+    document.getElementById("shooting").previousElementSibling.textContent = "Shooting";
+    document.getElementById("passing").previousElementSibling.textContent = "Passing";
+    document.getElementById("dribbling").previousElementSibling.textContent = "Dribbling";
+    document.getElementById("defending").previousElementSibling.textContent = "Defending";
+    document.getElementById("physical").previousElementSibling.textContent = "Physical";
+  }
+  
   document.getElementById("name").value = playersArray[index].name;
   document.getElementById("photo").value = playersArray[index].photo;
   document.getElementById("country").value = playersArray[index].nationality;
