@@ -44,7 +44,7 @@ fetch("./assets/players.json")
   
     itemElements.forEach((item) => {
       item.addEventListener("dragstart", (e) => {
-        selected = e.currentTarget; 
+        selected = e.currentTarget;
         position = selected.children[2].children[0].textContent.trim();
         parent = selected.parentElement; 
       });
@@ -75,10 +75,7 @@ fetch("./assets/players.json")
           box.appendChild(selected);
 
           const PlayerSelectedIndex = Array.from(itemElements).indexOf(selected);
-          console.log(PlayerSelectedIndex)
           StadeArray.push(PlayerSelectedIndex)
-          console.log(StadeArray);
-          
         }
       });
     });
@@ -261,6 +258,8 @@ selectPlayer.addEventListener("change", (e) => {
   }
 });
 
+// ---------------- Pagination -----------------------
+
 function GoBack() {
   document.getElementById("stade").style.display = "grid";
   document.getElementById("players_aside").style.display = "block";
@@ -275,7 +274,7 @@ function PlayerList() {
   DisplayPlayers(playersArray);
 }
 
-// ======================= playerslIST ==============================
+// ======================= players LiST ==============================
 function DisplayPlayers(items) {
   playersList2.innerHTML = CreatePlayers(items);
 }
@@ -534,3 +533,10 @@ function ResetInputs() {
     (document.getElementById("defending").value = ""),
     (document.getElementById("physical").value = "");
 }
+
+
+// ================ Mise En Situation ===================
+
+// boxes.forEach((e) => {
+//   console.log(e.children[0].children[2].textContent.trim())
+// })
