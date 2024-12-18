@@ -25,114 +25,160 @@ let playerInput = {
   physical: document.getElementById("physical").value,
 };
 
-// Fetch Depuis Json
-fetch("./assets/players.json")
-  .then((response) => response.json())
-  .then((data) => {
-    playersArray = data.players;
-    display(playersArray);
-    DisplayPlayers(playersArray);
+// fetch("./assets/players.json")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     playersArray = data.players;
+//     display(playersArray);
+//     DisplayPlayers(playersArray);
+//   });
+
+// fetch("../data.php", {
+//   method: "GET",
+//   headers: {
+//     "Content-Type": "application/json; charset=utf-8",
+//   },
+// })
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+//     return response.json(); // Get raw response text
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((error) => {
+//     console.error("Error:", error.message);
+//   });
+
+// let User = {
+//   name: "BAO",
+//   club: "Bilbao",
+//   age: 12,
+// };
+
+// fetch("../data.php", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json; charset=utf-8",
+//   },
+//   body: JSON.stringify(User),
+// })
+//   .then((res) => {
+//     if (!res.ok) {
+//       throw new Error(`HTTP error! status: ${res.status}`);
+//     }
+//     console.log(`${res.status}`)
+//     // Return the parsed JSON from the response
+//     return res.json();
+//   })
+//   .then((data) => {
+//     // Handle the data once it's resolved
+//     console.log(data);
+//   })
+
+function display(items) {
+  // playersList.innerHTML = htmlContent(items);
+
+  const itemElements = document.querySelectorAll(".item");
+  let selected = null;
+  let position = null;
+  let parent = null;
+
+  itemElements.forEach((item) => {
+    item.addEventListener("dragstart", (e) => {
+      selected = e.currentTarget;
+      position = selected.children[2].children[0].textContent.trim();
+      parent = selected.parentElement;
+    });
+
+    item.addEventListener("dragend", () => {
+      selected = null;
+      position = null;
+      parent = null;
+    });
   });
 
-  function display(items) {
-    playersList.innerHTML = htmlContent(items);
-  
-    const itemElements = document.querySelectorAll(".item");
-    let selected = null; 
-    let position = null;
-    let parent = null;
-  
-    itemElements.forEach((item) => {
-      item.addEventListener("dragstart", (e) => {
-        selected = e.currentTarget;
-        position = selected.children[2].children[0].textContent.trim();
-        parent = selected.parentElement; 
-      });
-  
-      item.addEventListener("dragend", () => {
-        selected = null;
-        position = null;
-        parent = null;
-      });
+  boxes.forEach((box) => {
+    box.addEventListener("dragover", (e) => {
+      if (box.id.includes(position)) {
+        e.preventDefault();
+      }
     });
-  
-    boxes.forEach((box) => {
-      box.addEventListener("dragover", (e) => {
-        if (box.id.includes(position)) {
-          e.preventDefault(); 
-        }
-      });
-  
-      box.addEventListener("drop", (e) => {
-        if (box.id.includes(position)) {
-          const existingPlayer = box.querySelector(".item");
-          if (existingPlayer) {
-            StadeArray.splice(Array.from(itemElements).indexOf(existingPlayer), 1)
-            parent.appendChild(existingPlayer);
-          }
-  
-          box.innerHTML = ""; 
-          box.appendChild(selected);
 
-          const PlayerSelectedIndex = Array.from(itemElements).indexOf(selected);
-          StadeArray.push(PlayerSelectedIndex)
+    box.addEventListener("drop", (e) => {
+      if (box.id.includes(position)) {
+        const existingPlayer = box.querySelector(".item");
+        if (existingPlayer) {
+          StadeArray.splice(
+            Array.from(itemElements).indexOf(existingPlayer),
+            1
+          );
+          parent.appendChild(existingPlayer);
         }
-      });
+
+        box.innerHTML = "";
+        box.appendChild(selected);
+
+        const PlayerSelectedIndex = Array.from(itemElements).indexOf(selected);
+        StadeArray.push(PlayerSelectedIndex);
+      }
     });
-  }
-  
-  
-
-function htmlContent(items) {
-  let htmlItems = "";
-
-  items.forEach((item, index) => {
-    if (!StadeArray.includes(index)) {
-      htmlItems += `<div class="item" draggable="true" style="margin-top: 5px; display:flex; justify-content: center; border-radius: 10px; width: 100%;">
-                      <div class="player_photo">
-                          <div class="rating" style="left: 25%; top: 10%;">${item.rating}</div>
-                          <img src="${item.photo}" alt="">
-                      </div>
-                      <div class="player_name">${item.name}</div>
-                      <div class="player_NationClub">
-                          <div>${item.position}</div>
-                          <img src="${item.flag}" />
-                          <img src="${item.logo}" />
-                          <div></div>
-                      </div>
-                      <div class="player_stats" style="display : none">
-                          <div class="column-stats">
-                              <p>${item.pace ? "PAC" : "DIV"}</p>
-                              <p>${item.pace || item.diving}</p>
-                          </div>
-                          <div class="column-stats">
-                              <p>${item.shooting ? "SHO" : "HAN"}</p>
-                              <p>${item.shooting || item.handling}</p>
-                          </div>
-                          <div class="column-stats">
-                              <p>${item.passing ? "PAS" : "KIC"}</p>
-                              <p>${item.passing || item.kicking}</p>
-                          </div>
-                          <div class="column-stats">
-                              <p>${item.dribbling ? "DRI" : "REF"}</p>
-                              <p>${item.dribbling || item.reflexes}</p>
-                          </div>
-                          <div class="column-stats">
-                              <p>${item.defending ? "DEF" : "SPD"}</p>
-                              <p>${item.defending || item.speed}</p>
-                          </div>
-                          <div class="column-stats">
-                              <p>${item.physical ? "PHY" : "POS"}</p>
-                              <p>${item.physical || item.positioning}</p>
-                          </div>
-                      </div>
-                  </div>`;
-    }
   });
-  
-
-  return htmlItems;
 }
+
+// function htmlContent(items) {
+//   let htmlItems = "";
+
+//   items.forEach((item, index) => {
+//     if (!StadeArray.includes(index)) {
+//       htmlItems += `<div class="item" draggable="true" style="margin-top: 5px; display:flex; justify-content: center; border-radius: 10px; width: 100%;">
+//                       <div class="player_photo">
+//                           <div class="rating" style="left: 25%; top: 10%;">${
+//                             item.rating
+//                           }</div>
+//                           <img src="${item.photo}" alt="">
+//                       </div>
+//                       <div class="player_name">${item.name}</div>
+//                       <div class="player_NationClub">
+//                           <div>${item.position}</div>
+//                           <img src="${item.flag}" />
+//                           <img src="${item.logo}" />
+//                           <div></div>
+//                       </div>
+//                       <div class="player_stats" style="display : none">
+//                           <div class="column-stats">
+//                               <p>${item.pace ? "PAC" : "DIV"}</p>
+//                               <p>${item.pace || item.diving}</p>
+//                           </div>
+//                           <div class="column-stats">
+//                               <p>${item.shooting ? "SHO" : "HAN"}</p>
+//                               <p>${item.shooting || item.handling}</p>
+//                           </div>
+//                           <div class="column-stats">
+//                               <p>${item.passing ? "PAS" : "KIC"}</p>
+//                               <p>${item.passing || item.kicking}</p>
+//                           </div>
+//                           <div class="column-stats">
+//                               <p>${item.dribbling ? "DRI" : "REF"}</p>
+//                               <p>${item.dribbling || item.reflexes}</p>
+//                           </div>
+//                           <div class="column-stats">
+//                               <p>${item.defending ? "DEF" : "SPD"}</p>
+//                               <p>${item.defending || item.speed}</p>
+//                           </div>
+//                           <div class="column-stats">
+//                               <p>${item.physical ? "PHY" : "POS"}</p>
+//                               <p>${item.physical || item.positioning}</p>
+//                           </div>
+//                       </div>
+//                   </div>`;
+//     }
+//   });
+
+//   return htmlItems;
+// }
 
 function validateFieldsAdd() {
   const nameValid = /^[a-zA-Z\s]+$/.test(
@@ -234,7 +280,7 @@ function validateFieldsAdd() {
 
 selectPlayer.addEventListener("change", (e) => {
   console.log(e.target.value);
-  
+
   if (selectPlayer.value === "GK") {
     document.getElementById("pace").previousElementSibling.textContent =
       "Diving";
@@ -250,11 +296,16 @@ selectPlayer.addEventListener("change", (e) => {
       "Positioning";
   } else {
     document.getElementById("pace").previousElementSibling.textContent = "Pace";
-    document.getElementById("shooting").previousElementSibling.textContent = "Shooting";
-    document.getElementById("passing").previousElementSibling.textContent = "Passing";
-    document.getElementById("dribbling").previousElementSibling.textContent = "Dribbling";
-    document.getElementById("defending").previousElementSibling.textContent = "Defending";
-    document.getElementById("physical").previousElementSibling.textContent = "Physical";
+    document.getElementById("shooting").previousElementSibling.textContent =
+      "Shooting";
+    document.getElementById("passing").previousElementSibling.textContent =
+      "Passing";
+    document.getElementById("dribbling").previousElementSibling.textContent =
+      "Dribbling";
+    document.getElementById("defending").previousElementSibling.textContent =
+      "Defending";
+    document.getElementById("physical").previousElementSibling.textContent =
+      "Physical";
   }
 });
 
@@ -289,9 +340,7 @@ function CreatePlayers(items) {
                   <div class="card-inner">
                   <div class="card-top">
                   <div class="info">
-                  <div class="value">${
-                                                    player.rating
-                                                  }</div>
+                  <div class="value">${player.rating}</div>
                                                   <div class="position">${
                                                     player.position
                                                   }</div>
@@ -310,11 +359,10 @@ function CreatePlayers(items) {
                                                   <div>
                                                   <ul>
                                                   <li><span>${
-                                                            player.position ==
-                                                            "GK"
-                                                              ? "DIV"
-                                                              : "PAC"
-                                                          }</span><span>${
+                                                    player.position == "GK"
+                                                      ? "DIV"
+                                                      : "PAC"
+                                                  }</span><span>${
       player.pace
     }</span></li>
                                                           <li><span>${
@@ -323,10 +371,10 @@ function CreatePlayers(items) {
                                                               ? "HAN"
                                                               : "SHO"
                                                           }</span><span>${
-                                                              player.shooting
+      player.shooting
     }</span></li>
                                                           <li><span>${
-                                                              player.position ==
+                                                            player.position ==
                                                             "GK"
                                                               ? "KIC"
                                                               : "PAS"
@@ -339,18 +387,18 @@ function CreatePlayers(items) {
                                                               ? "DEF"
                                                               : "DRI"
                                                           }</span><span>${
-                                                              player.dribbling
+      player.dribbling
     }</span></li>
                                                           <li><span>${
-                                                              player.position ==
+                                                            player.position ==
                                                             "GK"
                                                               ? "SPD"
                                                               : "DEF"
                                                           }</span><span>${
-                                                              player.defending
+      player.defending
     }</span></li>
                                                           <li><span>${
-                                                              player.position ==
+                                                            player.position ==
                                                             "GK"
                                                               ? "POS"
                                                               : "PHY"
@@ -363,13 +411,13 @@ function CreatePlayers(items) {
                                                   <div class="country-club">
                                                   <div class="country">
                                                   <img src="${
-                                                      player.flag
-                                                      }" alt="">
+                                                    player.flag
+                                                  }" alt="">
                                                   </div>
                                                   <div class="club">
                                                   <img src="${
-                                                        player.logo
-                                                      }" alt="">
+                                                    player.logo
+                                                  }" alt="">
                                                   </div>
                                               </div>
                                               
@@ -460,13 +508,18 @@ function getPlayer(index) {
       "Positioning";
   } else {
     document.getElementById("pace").previousElementSibling.textContent = "Pace";
-    document.getElementById("shooting").previousElementSibling.textContent = "Shooting";
-    document.getElementById("passing").previousElementSibling.textContent = "Passing";
-    document.getElementById("dribbling").previousElementSibling.textContent = "Dribbling";
-    document.getElementById("defending").previousElementSibling.textContent = "Defending";
-    document.getElementById("physical").previousElementSibling.textContent = "Physical";
+    document.getElementById("shooting").previousElementSibling.textContent =
+      "Shooting";
+    document.getElementById("passing").previousElementSibling.textContent =
+      "Passing";
+    document.getElementById("dribbling").previousElementSibling.textContent =
+      "Dribbling";
+    document.getElementById("defending").previousElementSibling.textContent =
+      "Defending";
+    document.getElementById("physical").previousElementSibling.textContent =
+      "Physical";
   }
-  
+
   document.getElementById("name").value = playersArray[index].name;
   document.getElementById("photo").value = playersArray[index].photo;
   document.getElementById("country").value = playersArray[index].nationality;
@@ -474,7 +527,8 @@ function getPlayer(index) {
   document.getElementById("club").value = playersArray[index].club;
   document.getElementById("logo").value = playersArray[index].logo;
   document.getElementById("rating").value = playersArray[index].rating;
-  document.getElementById("positionSelect").value = playersArray[index].position;
+  document.getElementById("positionSelect").value =
+    playersArray[index].position;
   document.getElementById("pace").value = playersArray[index].pace;
   document.getElementById("shooting").value = playersArray[index].shooting;
   document.getElementById("passing").value = playersArray[index].passing;
@@ -533,7 +587,6 @@ function ResetInputs() {
     (document.getElementById("defending").value = ""),
     (document.getElementById("physical").value = "");
 }
-
 
 // ================ Mise En Situation ===================
 

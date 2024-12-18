@@ -264,9 +264,18 @@ aside .actions select option {
     width: 100%;
 }
 
+td{
+    display: flex; 
+    justify-content : center;
+}
+
+table tbody {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 .players .players-main .players-all {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 155px));
     width: 100%;
     border-radius: 10px;
     padding: 20px 0;
