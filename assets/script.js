@@ -588,6 +588,30 @@ function ResetInputs() {
     (document.getElementById("physical").value = "");
 }
 
+
+// console.log(document.querySelectorAll(".Edit"));
+
+// const Modal = document.querySelector(".modal-body form");
+
+
+// document.querySelectorAll(".Edit").forEach((item, index) => {
+//   item.addEventListener("click", function(e) {
+//     let fr = item.href.split("=");
+//     let ne = fr[1];
+//     console.log(ne)
+//     ModalButton.value = "Edit";
+//     ModalButton.name = "edited";
+//     Modal.setAttribute("action", `./Backend/Actions/Edit.php?id=${ne}`);
+//   })
+// })
+
+// document.getElementById("addNewPlayer").addEventListener("click", function(e) {
+//   ModalButton.value = "Add";
+//   ModalButton.name = "submit";
+//   Modal.setAttribute("action", './Backend/Actions/Create.php');
+// })
+
+
 // ================ Mise En Situation ===================
 
 // boxes.forEach((e) => {

@@ -24,7 +24,7 @@ if(isset($_POST['submit'])){
 
     if($name != ""){
         $sql = "INSERT INTO Players(id, name,  photo, rating, position, id_equipe, id_nationalite) VALUES($identifier, '$name', '$photo', $rating, '$position', 1, 1)";
-        $sql2 = "INSERT INTO Statistics (id_player, pace, shooting, passing, defending, dribbling, physical) VALUES($identifier, 85, 92, 91, 35, 95, 65)";
+        $sql2 = "INSERT INTO Statistics (id_player, pace, shooting, passing, defending, dribbling, physical) VALUES($identifier, $pace, $shooting, $passing, $defending, $dribbling, $physical)";
         if (mysqli_query($connection, $sql) && mysqli_query($connection, $sql2)) {
             header("location: ../../index.php");
         } else {

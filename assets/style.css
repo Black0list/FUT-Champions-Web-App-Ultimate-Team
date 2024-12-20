@@ -264,9 +264,20 @@ aside .actions select option {
     width: 100%;
 }
 
+/* NEW */
+
 td{
     display: flex; 
     justify-content : center;
+}
+
+table{
+    border-radius: 10px;
+    background-color: #2B2A2A;
+}
+
+option{
+    color: #1E1E1E;
 }
 
 table tbody {
@@ -274,6 +285,23 @@ table tbody {
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
+.stats_col{
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    border: 1px solid orange;
+    border-radius: 10px;
+    transition: 0.4s;
+}
+
+.stats_col:hover{
+    background-color: orange;
+    color: white;
+}
+
+/* //////// end */
 
 .players .players-main .players-all {
     width: 100%;

@@ -215,18 +215,37 @@
 
     <section class="players" style="display: flex;">
         <div class="players-heading">
-            <h1 class="main-title">Ultimate Team</h1>
+            <h1 class="main-title">Dashboard</h1>
             <div class="players-actions">
                 <a  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playerModal"
-                aria-expanded="true" onclick="changeTextContent()">Add new player</a>
+                aria-expanded="true" onclick="changeTextContent()" id="addNewPlayer">Add new player</a>
+                <a type="button" class="btn btn btn-secondary">Nations</a>
+                <a type="button" class="btn btn-secondary">Teams</a>
                 <a type="button" class="btn btn-warning" onclick="GoBack()" class="secondary-button">Back to Stadium</a>
             </div>
         </div>
-        <div class="players-main">
+
+        <div class="container text-center">
+            <div class="row" style="display: flex; justify-content: center; gap: 10px; align-items:center;">
+                <div class="col stats_col"><h1><?php echo mysqli_num_rows(mysqli_query($connection, "SELECT id FROM Players")) ?></h1> <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+</svg></div>
+                <div class="col stats_col"><h1><?php echo mysqli_num_rows(mysqli_query($connection, "SELECT id FROM Equipes")) ?></h1> <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-opencollective" viewBox="0 0 16 16">
+  <path fill-opacity=".4" d="M12.995 8.195c0 .937-.312 1.912-.78 2.693l1.99 1.99c.976-1.327 1.6-2.966 1.6-4.683 0-1.795-.624-3.434-1.561-4.76l-2.068 2.028c.468.781.78 1.679.78 2.732z"/>
+  <path d="M8 13.151a4.995 4.995 0 1 1 0-9.99c1.015 0 1.951.273 2.732.82l1.95-2.03a7.805 7.805 0 1 0 .04 12.449l-1.951-2.03a5.07 5.07 0 0 1-2.732.781z"/></svg></div>
+                <div class="col stats_col"><h1><?php echo mysqli_num_rows(mysqli_query($connection, "SELECT id FROM Nationalites")) ?></h1> <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+  <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+</svg></div>
+            </div>
+
+        </div>
+                    
+        <div class="players-main" style="display: none;">
             <div class="players-all" id="players-all">
             <table class="table">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Photo</th>
                                 <th>name</th>
                                 <th>position</th>
@@ -243,11 +262,13 @@
                         </thead>
                         <tbody>
                             <?php
-                                $sql_query = "SELECT Players.*, Equipes.*, Nationalites.*, Statistics.* FROM Players JOIN Statistics ON Statistics.id_player = Players.id JOIN Nationalites ON Nationalites.id = Players.id_nationalite JOIN Equipes ON Equipes.id = Players.id_equipe;";
+                                $sql_query = "SELECT Players.*, Equipes.club , Nationalites.country , Statistics.pace, Statistics.shooting, Statistics.passing ,Statistics.defending ,Statistics.dribbling ,Statistics.physical ,Statistics.id_player
+ FROM Players JOIN Statistics ON Statistics.id_player = Players.id JOIN Nationalites ON Nationalites.id = Players.id_nationalite JOIN Equipes ON Equipes.id = Players.id_equipe";
                                 if ($result = mysqli_query($connection, $sql_query)) {
                                 while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <tr>
                                         <th><img src= <?php echo $row["photo"]?> alt=""></th>
+                                        <th><?php echo $row["id"]?></th>
                                         <th><?php echo $row["name"]?></th>
                                         <th><?php echo $row["position"]?></th>
                                         <th><?php echo $row["club"]?></th>
@@ -259,14 +280,53 @@
                                         <th><?php echo $row["dribbling"]?></th>
                                         <th><?php echo $row["defending"]?></th>
                                         <th><?php echo $row["physical"]?></th>
-                                        <th><a href="deletedata.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</a></th>
-                                        <th><a href="updatedata.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a></th>
+                                        <th><a href="./Backend/Actions/Delete.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</a></th>
+                                        <th><a href="./Backend/Actions/GetPlayers.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a></th>
                                     </tr>
                             <?php } } ?>
                         </tbody>
-                    </table>
+            </table>
             </div>
         </div>
+
+
+        <!-- Equipes Section -->
+    <section style="padding: 20px; width: 100%">   
+        <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Country</th>
+                                <th>Flag</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $sql_query_nations = "SELECT id,country,flag FROM Nationalites";
+                                if ($result_nations = mysqli_query($connection, $sql_query_nations)) {
+                                while ($nation = mysqli_fetch_assoc($result_nations)) { ?>
+                                    <tr>
+                                        <th><?php echo $nation["id"]?></th>
+                                        <th><?php echo $nation["country"]?></th>
+                                        <th><img src= <?php echo $nation["flag"]?> alt=""></th>
+                                        <th><a href="./Backend/Actions/Delete.php?id=<?php echo $nation["id"]; ?>" class="btn btn-danger">Delete</a></th>
+                                        <th><a href="./Backend/Actions/GetPlayers.php?id=<?php echo $nation["id"]; ?>" class="btn btn-primary">Edit</a></th>
+                                    </tr>
+                            <?php } } ?>
+                        </tbody>
+            </table>
+    </section>
+
+
+
+
+
+
+
+
+
 
 
 <!-- Modal Default Player -->
@@ -295,7 +355,16 @@
                     <!-- Player Nationality -->
                     <div class="col-md-6">
                         <label for="country" class="form-label">Player's Nationality</label>
-                        <input type="text" class="form-control" id="country" name="country" placeholder="e.g., Portugal" required>
+                        <select id="countryID" name="country" class="form-select" aria-label="Select Nation" required>
+                            <?php 
+                                $sql = "SELECT id,country FROM Nationalites";
+                                if($result = mysqli_query($connection, $sql)){
+                                    while($row = mysqli_fetch_assoc($result)){?>
+                                        <option value=<?php echo $row["id"] ?>><?php echo $row["country"] ?></option>
+                                    <?php }
+                                }
+                            ?>
+                        </select>
                         <div class="red" id="countryError"></div>
                     </div>
 
@@ -309,7 +378,16 @@
                     <!-- Player's Club -->
                     <div class="col-md-6">
                         <label for="club" class="form-label">Player's Club</label>
-                        <input type="text" class="form-control" id="club" name="club" placeholder="e.g., Al Nassr" required>
+                        <select id="clubID" name="club" class="form-select" aria-label="Select club" required>
+                            <?php 
+                                $sqls = "SELECT id,logo,club FROM Equipes";
+                                if($result = mysqli_query($connection, $sqls)){
+                                    while($row = mysqli_fetch_assoc($result)){?>
+                                        <option value=<?php echo $row["id"] ?>><?php echo $row["club"] ?></option>
+                                    <?php }
+                                }
+                            ?>
+                        </select>
                         <div class="red" id="clubError"></div>
                     </div>
 
@@ -324,19 +402,20 @@
                     <div class="col-md-6">
                         <label for="positionSelect" class="form-label">Player's Position</label>
                         <select id="positionSelect" name="position" class="form-select" aria-label="Select position" required>
-                            <option value="RB">RB</option>
-                            <option value="CB">CB</option>
-                            <option value="CDM">CDM</option>
-                            <option value="GK">GK</option>
-                            <option value="CM">CM</option>
-                            <option value="CAM">CAM</option>
-                            <option value="RM">RM</option>
-                            <option value="LM">LM</option>
+                            <option value="ST">ST</option>
                             <option value="RW">RW</option>
                             <option value="LW">LW</option>
-                            <option value="CF">CF</option>
-                            <option value="ST">ST</option>
+                            <option value="LB">LB</option>
+                            <option value="RB">RB</option>
+                            <option value="CB">CB</option>
+                            <option value="CM">CM</option>
                             <option value="SS">SS</option>
+                            <option value="AM">AM</option>
+                            <option value="LM">LM</option>
+                            <option value="RM">RM</option>
+                            <option value="DM">DM</option>
+                            <option value="GK">GK</option>
+                            <option value="CDM">CDM</option>
                         </select>
                         <div class="red" id="positionError"></div>
                     </div>
@@ -397,7 +476,8 @@
 </div>
 
         </div>
-    </section>
+</section>
+
 
     <script src="./assets/script.js"></script>
 
